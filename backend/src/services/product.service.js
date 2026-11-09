@@ -42,6 +42,72 @@ const getData = async (page) => {
     }
 
 }
+
+const getById = async (productId) => {
+    const result = await productRepository.getById(productId)
+    if (result.length === 0) {
+        return {
+            success: false,
+            message: "Product Not Found"
+        }
+    }
+    return {
+        success: true,
+        data: result
+    }
+}
+
+const createData = (product) => {
+    return productRepository.createData(product)
+}
+
+const updateProduct = async (productId, product) => {
+    const result = await productRepository.updateProduct(productId, product)
+
+    if (result.affectedRows === 0) {
+        return {
+            success: false,
+            message: "Product Not Found"
+        }
+    }
+
+    if (result.changedRows === 0) {
+        return {
+            success: false,
+            message: "no data has been changed"
+        }
+    }
+    return {
+        success: true,
+        message: "successfully updated product data"
+    }
+}
+
+const deleteById = async (productId) => {
+    const result = await productRepository.deleteById(productId)
+
+    if (result.affectedRows === 0) {
+        return {
+            success: false,
+            message: "Product Not Found"
+        }
+
+    }
+    return {
+        success: true,
+        message: "successfully deleted the product"
+    }
+
+}
+
+const removeAll = async() => {
+    const result = await productRepository.removeAll()
+    return {
+        message : "success",
+        result
+    }
+}
+
 export default {
-    getData
+    getData, getById, createData, updateProduct, deleteById, removeAll
 }
